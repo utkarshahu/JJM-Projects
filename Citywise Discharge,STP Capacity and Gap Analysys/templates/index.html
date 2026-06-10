@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Citywise Discharge,STP Capacity and Gap Analysys</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Calibri, Arial, sans-serif;
+    background:#f3f3f3;
+}
+
+
+.header h2{
+    margin:0;
+    font-size:26px;
+    font-weight:700;
+}
+
+.table-wrapper{
+    overflow:auto;
+    height:calc(100vh - 70px);
+}
+
+table{
+    border-collapse:collapse;
+    background:#fff;
+    min-width:6500px;
+}
+
+thead{
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+.main-head th{
+    background:#2f7ea3;
+    color:#fff;
+    border:1px solid #5b8ea6;
+    padding:8px 6px;
+
+    font-size:11px;
+    font-weight:700;
+
+    white-space:normal;
+    word-break:break-word;
+    line-height:1.3;
+    min-width:70px;
+}
+
+.number-row th{
+    background:#efd987;
+    border:1px solid #ccb76c;
+    padding:5px;
+
+    font-size:11px;
+    font-weight:700;
+}
+
+tbody td{
+    border:1px solid #d8d8d8;
+    padding:5px;
+
+    font-size:12px;
+    text-align:center;
+    vertical-align:middle;
+
+    white-space:normal;
+    word-break:break-word;
+}
+
+tbody tr:hover{
+    background:#eef7ff;
+}
+
+.district-cell{
+    font-weight:bold;
+    background:#f6f6f6;
+}
+
+.town-cell{
+    background:#fcfcfc;
+}
+
+.remark{
+    min-width:320px;
+    max-width:320px;
+
+    text-align:left;
+
+    white-space:normal;
+    word-break:break-word;
+    line-height:1.4;
+}
+
+.numeric{
+    text-align:right;
+    padding-right:8px;
+}
+
+td[rowspan]{
+    vertical-align:middle !important;
+}
+.header{
+    background:#fff;
+    padding:12px 20px;
+    border-bottom:1px solid #ccc;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+#refreshBtn{
+
+    background:#28a745;
+    color:white;
+
+    border:none;
+    padding:10px 18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    font-size:14px;
+    font-weight:bold;
+}
+
+#refreshBtn:hover{
+    background:#218838;
+}
+
+#refreshBtn:disabled{
+    background:#888;
+    cursor:not-allowed;
+}
+</style>
+</head>
+
+<body>
+<div class="header">
+
+    <h2>
+        Citywise Discharge,STP Capacity and Gap Analysys
+    </h2>
+
+    <button id="refreshBtn">
+        Fetch Latest Data
+    </button>
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr class="main-head">
+
+<th rowspan="2">S.No.</th>
+<th rowspan="2">District</th>
+<th rowspan="2">City/Town</th>
+<th rowspan="2">River</th>
+
+<th rowspan="2">Present Population<br>(in Lakhs)[2024]</th>
+<th rowspan="2">Present Population <br>based sewage generation<br>(MLD)[2024]</th>
+
+<th rowspan="2">Tapped Drains +<br> Partial Tapped Drains<br> + Untapped Drains</th>
+<th rowspan="2">Not To Be<br> Tapped Drains</th>
+<th rowspan="2">Total Drains <br>
+    (Nos.)</th>
+
+<th rowspan="2">Discharge Through Drains (MLD)</th>
+<th rowspan="2">Discharge Through Sewer Network (MLD)</th>
+
+<th rowspan="2">Length Of Sewerage Network (KM)</th>
+<th rowspan="2">No Of House Holds(HH)</th>
+<th rowspan="2">No Of HH Connected To Sewerage Network</th>
+
+<th rowspan="2">Total Discharge (MLD)</th>
+
+<th colspan="2">Existing STP</th>
+
+<th rowspan="2">Utilization Capacity Of Existing STP</th>
+
+<th rowspan="2">Gap Installed Capacity Vs Population</th>
+<th rowspan="2">Gap Utilization Capacity Vs Population</th>
+
+<th rowspan="2">Gap Installed Capacity Vs Actual Discharge</th>
+<th rowspan="2">Gap Utilization Capacity Vs Actual Discharge</th>
+
+<th colspan="2">STP Under Construction</th>
+
+<th colspan="2">STP Under Tendering</th>
+
+<th rowspan="2">Capacity Proposed</th>
+<th rowspan="2">Total Capacity</th>
+
+<th rowspan="2">Sewage Gap</th>
+<th rowspan="2">Population Gap</th>
+
+<th rowspan="2">Projected Population 2037</th>
+<th rowspan="2">Population Based Sewage Generation 2037</th>
+<th rowspan="2">Sewage Gap Based On Projected Population 2037</th>
+
+<th rowspan="2">Remark</th>
+
+</tr>
+
+<tr class="main-head">
+
+<th>No.</th>
+<th>Capacity</th>
+
+<th>No.</th>
+<th>Capacity</th>
+
+<th>No.</th>
+<th>Capacity</th>
+
+</tr>
+
+<tr class="number-row">
+
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6A</th>
+<th>6B</th>
+<th>6C</th>
+<th>7</th>
+<th>8</th>
+<th>8A</th>
+<th>8B</th>
+<th>8C</th>
+<th>9</th>
+<th>10</th>
+<th>11A</th>
+<th>11B</th>
+<th>11.1</th>
+<th>11.2</th>
+<th>11.3</th>
+<th>11.4</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+<th>15</th>
+<th>16</th>
+<th>17</th>
+<th>18</th>
+<th>19</th>
+<th>20</th>
+<th>21</th>
+<th>22</th>
+<th>23</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody">
+
+<!-- JS rows here -->
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+async function loadData() {
+
+    const response = await fetch("/api/current");
+    const data = await response.json();
+
+    renderTable(data);
+}
+
+function renderTable(data){
+
+    let html = "";
+
+    const districtCount = {};
+    let districtSerial = 1;
+    const townCount = {};
+
+    // Count rows
+    data.forEach(row => {
+
+        districtCount[row.district_name] =
+            (districtCount[row.district_name] || 0) + 1;
+
+        const townKey =
+            row.district_name + "|" + row.town_city_name;
+
+        townCount[townKey] =
+            (townCount[townKey] || 0) + 1;
+    });
+
+    const districtRendered = {};
+    const townRendered = {};
+
+    data.forEach((row,index)=>{
+
+        html += "<tr>";
+
+        if(!districtRendered[row.district_name]){
+
+    html += `
+    <td rowspan="${districtCount[row.district_name]}"
+        style="
+            vertical-align:middle;
+            text-align:center;
+            font-weight:bold;
+        ">
+        ${districtSerial++}
+    </td>
+    `;
+
+    html += `
+    <td rowspan="${districtCount[row.district_name]}"
+        class="district-cell"
+        style="
+                    font-weight:bold;
+                    text-align:center;
+                    vertical-align:middle;
+                    background:#f6f6f6;">
+        ${row.district_name}
+    </td>
+    `;
+
+    districtRendered[row.district_name] = true;
+}
+
+
+
+        const townKey =
+            row.district_name + "|" + row.town_city_name;
+
+        // TOWN ROWSPAN FIELDS
+        if(!townRendered[townKey]){
+
+            const span = townCount[townKey];
+
+            html += `
+
+            <td rowspan="${span}" style="vertical-align:middle;">
+                ${row.town_city_name || ""}
+            </td>
+
+            `;
+
+            townRendered[townKey] = true;
+        }
+
+        // RIVER COLUMN
+        html += `
+        <td>${row.river_name || ""}</td>
+        `;
+
+        // TOWN LEVEL FIELDS
+        if(data.findIndex(r =>
+            r.district_name === row.district_name &&
+            r.town_city_name === row.town_city_name
+        ) === index){
+
+            const span = townCount[townKey];
+
+            html += `
+
+            <td rowspan="${span}">
+                ${row.present_population_2024 ?? ""}
+            </td>
+
+            <td rowspan="${span}">
+                ${row.present_population_based_sewage_generation_2024 ?? ""}
+            </td>
+
+            `;
+        }
+
+        // RIVER LEVEL DATA
+
+        html += `
+
+        <td>${row.tapped_partial_untapped_drains ?? ""}</td>
+
+        <td>${row.not_to_be_tapped_drains ?? ""}</td>
+
+        <td>${row.total_drains ?? ""}</td>
+
+        <td>${row.discharge_through_drains_mld ?? ""}</td>
+
+        <td>${row.discharge_through_sewer_network_mld ?? ""}</td>
+
+        `;
+
+        // MORE TOWN LEVEL FIELDS
+
+        if(data.findIndex(r =>
+            r.district_name === row.district_name &&
+            r.town_city_name === row.town_city_name
+        ) === index){
+
+            const span = townCount[townKey];
+
+            html += `
+
+            <td rowspan="${span}">
+                ${row.length_of_sewerage_network_km ?? ""}
+            </td>
+
+            <td rowspan="${span}">
+                ${row.no_of_house_holds ?? ""}
+            </td>
+
+            <td rowspan="${span}">
+                ${row.no_of_hh_connected_to_sewerage_network ?? ""}
+            </td>
+
+            `;
+        }
+
+        // RIVER LEVEL
+
+        html += `
+
+        <td>${row.total_discharge_mld ?? ""}</td>
+
+        <td>${row.no_of_existing_stp ?? ""}</td>
+
+        <td>${row.capacity_of_existing_stp ?? ""}</td>
+
+        <td>${row.utilization_capacity_of_existing_stp ?? ""}</td>
+
+        <td>${row.gap_installed_capacity_population_flow ?? ""}</td>
+
+        <td>${row.gap_utilization_capacity_population_flow ?? ""}</td>
+
+        <td>${row.gap_installed_capacity_actual_discharge ?? ""}</td>
+
+        <td>${row.gap_utilization_capacity_actual_discharge ?? ""}</td>
+
+        <td>${row.no_of_stp_under_construction ?? ""}</td>
+
+        <td>${row.capacity_of_stp_under_construction ?? ""}</td>
+
+        <td>${row.no_of_stp_under_tendering ?? ""}</td>
+
+        <td>${row.capacity_of_stp_under_tendering ?? ""}</td>
+
+        <td>${row.capacity_proposed ?? ""}</td>
+
+        <td>${row.total_capacity_mld ?? ""}</td>
+
+        <td>${row.sewage_gap_mld ?? ""}</td>
+
+        <td>${row.gap_based_on_population_mld ?? ""}</td>
+
+        `;
+
+        // PROJECTED FIELDS ROWSPAN
+
+        if(data.findIndex(r =>
+            r.district_name === row.district_name &&
+            r.town_city_name === row.town_city_name
+        ) === index){
+
+            const span = townCount[townKey];
+
+            html += `
+
+            <td rowspan="${span}">
+                ${row.projected_population_2037 ?? ""}
+            </td>
+
+            <td rowspan="${span}">
+                ${row.population_based_sewage_generation_2037 ?? ""}
+            </td>
+
+            <td rowspan="${span}">
+                ${row.sewage_gap_based_on_projected_population_2037 ?? ""}
+            </td>
+
+            `;
+        }
+
+        html += `
+        <td class="remark">
+            ${row.remark ?? ""}
+        </td>
+        `;
+
+        html += "</tr>";
+    });
+
+    document.getElementById("tableBody").innerHTML = html;
+}
+
+document
+.getElementById("refreshBtn")
+.addEventListener("click", refreshData);
+
+
+async function refreshData(){
+
+    const btn =
+        document.getElementById("refreshBtn");
+
+    btn.disabled = true;
+    btn.innerHTML = "Refreshing...";
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/fetch-now",
+                {
+                    method:"POST"
+                }
+            );
+
+        const result =
+            await response.json();
+
+        alert(result.message);
+
+        // wait few seconds
+        setTimeout(async ()=>{
+
+            await loadData();
+
+            btn.disabled = false;
+            btn.innerHTML =
+                "Fetch Latest Data";
+
+        },5000);
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert("Refresh Failed");
+
+        btn.disabled = false;
+        btn.innerHTML =
+            "Fetch Latest Data";
+    }
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
