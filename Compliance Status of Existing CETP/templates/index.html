@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+
+<title>CETP Dashboard</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#efefef;
+}
+
+.topbar{
+    padding:20px;
+    position:relative;
+}
+.top-section{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px 25px;
+}
+
+.updated_data{
+
+    background:#28a745;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    border-radius:4px;
+}
+
+.updated_data:disabled{
+
+    background:#999;
+
+    cursor:not-allowed;
+}
+.back-btn{
+    background:#9c5700;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.export-btn{
+    background:#5cb85c;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.heading{
+    text-align:center;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.update{
+    text-align:center;
+    color:green;
+    font-weight:bold;
+    margin-bottom:10px;
+    font-size:16px;
+}
+
+.table-wrapper{
+    width:98%;
+    margin:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#d59e67;
+    border:1px solid #9f7d58;
+    padding:8px;
+    font-size:11px;
+}
+
+td{
+    border:1px solid #c0c0c0;
+    padding:8px;
+    text-align:center;
+    font-size:12px;
+}
+
+.blue{
+    color:blue;
+    font-weight:bold;
+}
+
+.green{
+    color:green;
+    font-weight:bold;
+}
+
+.remark{
+    min-width:700px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+    <div class="heading">
+        Compliance Status Of Existing CETP
+    </div>
+
+</div>
+<div class="top-section">
+
+
+
+    <div class="fetch_data">
+
+        <button
+            class="updated_data"
+            onclick="fetchUpdatedData()">
+
+            Fetch Updated Data
+
+        </button>
+
+    </div>
+
+</div>
+
+<div
+    id="reportDate"
+    class="update">
+    Loading...
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>S.No</th>
+
+<th>Name</th>
+
+<th>Total no of Industries</th>
+
+<th>Capacity(MLD)</th>
+
+<th>Executing agency</th>
+
+<th>Compliance status</th>
+
+<th>Department</th>
+
+<th>BOD(mg/l)<br>Actual / Design</th>
+
+<th>COD(mg/l)<br>Actual / Design</th>
+
+<th>TSS(mg/l)<br>Actual / Design</th>
+
+<th>PH(mg/l)<br>Actual / Design</th>
+
+<th>Remarks</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tbody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+async function loadData(){
+
+    try{
+
+        const res =
+            await fetch("/api/current");
+
+        const rows =
+            await res.json();
+
+        let html = "";
+
+        rows.forEach((r,index)=>{
+
+            html += `
+            <tr>
+
+                <td>${index+1}</td>
+
+                <td>${r.cetp_name || ""}</td>
+
+                <td>${r.total_industries || ""}</td>
+
+                <td>${r.capacity_mld || ""}</td>
+
+                <td>${r.agency_name || ""}</td>
+
+                <td>${r.compliance_status || ""}</td>
+
+                <td>${r.department_name || ""}</td>
+
+                <td>
+                    <span class="blue">
+                        ${r.bod_actual ?? ""}
+                    </span>
+                    /
+                    <span class="green">
+                        ${r.bod_design ?? ""}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="blue">
+                        ${r.cod_actual ?? ""}
+                    </span>
+                    /
+                    <span class="green">
+                        ${r.cod_design ?? ""}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="blue">
+                        ${r.tss_actual ?? ""}
+                    </span>
+                    /
+                    <span class="green">
+                        ${r.tss_design ?? ""}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="blue">
+                        ${r.ph_actual ?? ""}
+                    </span>
+                    /
+                    <span class="green">
+                        ${r.ph_design ?? ""}
+                    </span>
+                </td>
+
+                <td class="remark">
+                    ${r.remarks || ""}
+                </td>
+
+            </tr>
+            `;
+        });
+
+        document.getElementById(
+            "tbody"
+        ).innerHTML = html;
+
+        if(rows.length){
+
+            const dt =
+                rows[0].report_date ||
+                rows[0].scrape_time ||
+                "Not Available";
+
+            document.getElementById(
+                "reportDate"
+            ).innerHTML =
+            "Last Update Date : " + dt;
+        }
+
+    }
+    catch(err){
+
+        console.error(err);
+        
+    }
+}
+async function fetchUpdatedData(){
+
+    const btn =
+        document.querySelector(".updated_data")
+
+    btn.disabled = true
+    btn.innerText = "Fetching..."
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/fetch-now",
+                {
+                    method:"POST"
+                }
+            )
+
+        const result =
+            await response.json()
+
+        alert(result.message)
+
+        if(result.success){
+
+            await loadData()
+        }
+
+    }
+    catch(err){
+
+        alert("Manual Refresh Failed")
+    }
+    finally{
+
+        btn.disabled = false
+
+        btn.innerText =
+        "Fetch Updated Data"
+    }
+}
+loadData();
+
+setInterval(
+    loadData,
+    10000
+);
+
+</script>
+
+</body>
+</html>
