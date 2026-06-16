@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Progress Of Namami Gange Ongoing Projects</title>
+
+<style>
+    body{
+    margin:0;
+    padding:15px;
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.table-container{
+    background:#fff;
+    border:1px solid #ccc;
+    overflow:auto;
+    max-height:90vh;
+}
+
+table{
+    border-collapse:collapse;
+    min-width:4000px;
+}
+
+thead{
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+th,
+td{
+    border:1px solid #555;
+    padding:6px;
+    font-size:12px;
+    vertical-align:center;
+    text-align: center;
+}
+
+th{
+    background:#f1f5b3;
+    text-align:center;
+    font-weight:bold;
+}
+
+.component-cell{
+    background:#d9ffd8;
+}
+
+.fyprogress{
+    background:#eeffee;
+}
+
+.phyprogress{
+    background:#d9ffd8;
+}
+
+.remark-cell{
+    min-width:400px;
+}
+
+.delay-cell{
+    min-width:250px;
+}
+
+.action-cell{
+    min-width:250px;
+}
+
+/* Sticky Columns */
+
+.fix1,
+.fix2,
+.fix3,
+.fix4{
+    position:sticky;
+    background:#fff4d3;
+    z-index:100;
+}
+
+.fix1{
+    left:0;
+    min-width:50px;
+}
+
+.fix2{
+    left:50px;
+    min-width:120px;
+}
+
+.fix3{
+    left:170px;
+    min-width:120px;
+}
+
+.fix4{
+    left:290px;
+    min-width:250px;
+}
+
+.loading,
+.error{
+    text-align:center;
+    font-size:16px;
+    padding:20px;
+}
+</style>
+</head>
+
+<body>
+<h1>
+Weekly Progress Of Namami Gange Ongoing Projects
+</h1>
+<div style="margin-bottom:15px">
+
+    <button
+        id="refreshBtn"
+        onclick="refreshData()"
+        style="
+            background:#0d6efd;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            border-radius:5px;
+            cursor:pointer;
+        ">
+
+        Fetch Updated Data
+
+    </button>
+
+</div>
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th rowspan="2" class="fix1">Sr.No.</th>
+<th rowspan="2" class="fix2">District</th>
+<th rowspan="2" class="fix3">City/Town</th>
+<th rowspan="2" class="fix4">Name of Sewerage Project</th>
+
+<th rowspan="2">Scheme Type</th>
+<th rowspan="2">Mode of Project</th>
+
+<th colspan="5">AA&ES and Date</th>
+
+<th rowspan="2">No. of STP</th>
+<th rowspan="2">STP Capacity</th>
+<th rowspan="2">No. Of Drains</th>
+
+<th rowspan="2">Agency Name</th>
+<th rowspan="2">Agreement Cost</th>
+
+<th rowspan="2">Date of Start</th>
+<th rowspan="2">Date of Completion</th>
+<th rowspan="2">Revised Date</th>
+
+<th colspan="2" class="fyprogress">
+Current Progress
+</th>
+
+<th colspan="5" class="phyprogress">
+Component Wise Physical Progress
+</th>
+
+<th rowspan="2">Date of Updation</th>
+<th rowspan="2">Remark</th>
+<th rowspan="2">Reason For Delay</th>
+<th rowspan="2">Action Taken</th>
+<th rowspan="2">Tentative Inauguration Date</th>
+<th rowspan="2">Tentative Zero Discharge Date</th>
+
+</tr>
+
+<tr>
+
+<th>Date of Sanction</th>
+<th>Sanction Cost</th>
+<th>Work Cost</th>
+<th>Centage</th>
+<th>O&M Cost</th>
+
+<th class="fyprogress">
+Physical Progress (%)
+</th>
+
+<th class="fyprogress">
+Financial Progress
+</th>
+
+<th class="phyprogress">
+Work Component
+</th>
+
+<th class="phyprogress">
+No Of Component
+</th>
+
+<th class="phyprogress">
+Capacity/Length/No
+</th>
+
+<th class="phyprogress">
+Physical Progress (%)
+</th>
+
+<th class="phyprogress">
+Photos
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody">
+
+<tr>
+<td colspan="32" class="loading">
+Loading...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+function safe(value){
+    return value === null ||
+           value === undefined
+           ? ""
+           : value;
+}
+function formatDate(dateStr){
+
+    if(!dateStr) return "";
+
+    const date = new Date(dateStr);
+
+    if(isNaN(date.getTime())) return dateStr;
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+}
+
+function photoHtml(photo){
+
+    if(!photo) return "";
+
+    if(
+        String(photo).startsWith("http")
+    ){
+        return `
+        <a href="${photo}" target="_blank">
+            View
+        </a>
+        `;
+    }
+
+    return photo;
+}
+async function refreshData(){
+
+    const btn =
+        document.getElementById("refreshBtn");
+
+    btn.disabled = true;
+    btn.innerHTML = "Refreshing...";
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/fetch-now",
+                {
+                    method:"POST"
+                }
+            );
+
+        const result =
+            await response.json();
+
+        alert(result.message);
+
+        if(result.success){
+
+            await loadProjects();
+        }
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert("Refresh Failed");
+    }
+    finally{
+
+        btn.disabled = false;
+
+        btn.innerHTML =
+            "Fetch Latest Data";
+    }
+}
+
+async function loadProjects(){
+
+    try{
+
+        const response =
+            await fetch("/api/current");
+        console.log(response.status)
+        const result = await response.json();
+
+console.log(result);
+
+    const projects =
+    Array.isArray(result)
+    ? result
+    : (result.data || []);
+
+console.log("Projects:", projects.length);
+
+
+        const tbody =
+            document.getElementById(
+                "tableBody"
+            );
+
+        tbody.innerHTML = "";
+
+        if(projects.length === 0){
+
+            tbody.innerHTML = `
+            <tr>
+                <td colspan="32">
+                    No Data Found
+                </td>
+            </tr>
+            `;
+
+            return;
+        }
+
+        projects.forEach(project => {
+
+            const components =
+                project.components || [];
+
+            const rowspan =
+                Math.max(
+                    components.length,
+                    1
+                );
+
+            const first =
+                components[0] || {};
+
+            let html = `
+
+            <tr>
+
+            <td rowspan="${rowspan}" class="fix1">
+                ${safe(project.sr_no)}
+            </td>
+
+            <td rowspan="${rowspan}" class="fix2">
+                ${safe(project.district_name)}
+            </td>
+
+            <td rowspan="${rowspan}" class="fix3">
+                ${safe(project.city_name)}
+            </td>
+
+            <td rowspan="${rowspan}" class="fix4">
+                ${safe(project.project_name)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.scheme_type)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.project_mode)}
+            </td>
+
+            <td rowspan="${rowspan}">
+            ${formatDate(project.sanction_date)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.sanction_cost)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.work_cost)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.centage)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.om_cost)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.stp_count)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.stp_capacity)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.drain_count)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.agency_name)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${safe(project.agreement_cost)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${formatDate(project.start_date)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${formatDate(project.agreement_completion_date)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${formatDate(project.revised_date)}
+            </td>
+
+            <td rowspan="${rowspan}" class="fyprogress">
+                ${safe(project.physical_progress)}
+            </td>
+
+            <td rowspan="${rowspan}" class="fyprogress">
+                ${safe(project.financial_progress)}
+            </td>
+
+            <td class="component-cell">
+                ${safe(first.work_component)}
+            </td>
+
+            <td class="component-cell">
+                ${safe(first.component_count)}
+            </td>
+
+            <td class="component-cell">
+                ${safe(first.capacity_length_no)}
+            </td>
+
+            <td class="component-cell">
+                ${safe(first.physical_progress)}
+            </td>
+
+            <td class="component-cell">
+                ${photoHtml(first.photos)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${formatDate(project.update_date)}
+            </td>
+
+            <td rowspan="${rowspan}" class="remark-cell">
+                ${safe(project.remarks)}
+            </td>
+
+            <td rowspan="${rowspan}" class="delay-cell">
+                ${safe(project.reason_for_delay)}
+            </td>
+
+            <td rowspan="${rowspan}" class="action-cell">
+                ${safe(project.action_taken)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${formatDate(project.tentative_inauguration_date)}
+            </td>
+
+            <td rowspan="${rowspan}">
+                ${formatDate(project.tentative_zero_discharge_date)}
+            </td>
+
+            </tr>
+            `;
+
+            for(
+                let i = 1;
+                i < components.length;
+                i++
+            ){
+
+                const c =
+                    components[i];
+
+                html += `
+                <tr>
+
+                <td class="component-cell">
+                    ${safe(c.work_component)}
+                </td>
+
+                <td class="component-cell">
+                    ${safe(c.component_count)}
+                </td>
+
+                <td class="component-cell">
+                    ${safe(c.capacity_length_no)}
+                </td>
+
+                <td class="component-cell">
+                    ${safe(c.physical_progress)}
+                </td>
+
+                <td class="component-cell">
+                    ${photoHtml(c.photos)}
+                </td>
+
+                </tr>
+                `;
+            }
+
+            tbody.insertAdjacentHTML(
+                "beforeend",
+                html
+            );
+
+        });
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "tableBody"
+        ).innerHTML = `
+        <tr>
+            <td colspan="32" class="error">
+                Error Loading Data
+            </td>
+        </tr>
+        `;
+    }
+}
+
+loadProjects();
+</script>
+
+</body>
+</html>
