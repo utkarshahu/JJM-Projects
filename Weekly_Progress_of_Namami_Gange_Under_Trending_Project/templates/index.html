@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Weekly Progress Of Namami Gange - Under Tendering</title>
+
+<!-- Original CSS yahin paste karo -->
+<style>
+
+    .colr_0 {
+
+        color: red !important;
+
+    }
+
+
+
+    body {
+
+        margin: 10px;
+
+    }
+
+    /*
+
+        .outer-wrapper {
+
+            margin: 10px;
+
+            margin-left: 20px;
+
+            margin-right: 20px;
+
+            border: 1px solid black;
+
+            border-radius: 4px;
+
+            box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.9);
+
+            max-width: fit-content;
+
+            max-height: fit-content;
+
+
+
+
+
+        }*/
+
+    .table-wrapper {
+
+        overflow-y: scroll;
+
+        overflow-x: hidden;
+
+        height: fit-content;
+
+        max-height: 91vh;
+
+        margin-top: 22px;
+
+        margin: 0px;
+
+        padding-bottom: 20px;
+
+    }
+
+
+
+    table th, table td {
+
+        padding: 10px 4px !important;
+
+        font-family: arial;
+
+        line-height: 1.4;
+
+    }
+
+
+
+
+
+
+
+    table {
+
+        min-width: 100px;
+
+        border-collapse: separate;
+
+        border-spacing: 0px;
+
+    }
+
+
+
+
+
+
+
+        table thead {
+
+            position: sticky;
+
+            top: 0px;
+
+            /*background-color: #ddb082;*/
+
+            color: rgb(241, 245, 179);
+
+            text-align: center;
+
+            font-weight: normal;
+
+            font-size: 12px;
+
+            outline: 0.7px solid #555;
+
+            border: 1.5px solid #555;
+
+            z-index: 99999 !important;
+
+            letter-spacing: .5px;
+
+            color: black;
+
+        }
+
+
+
+        table td th {
+
+            position: relative !important;
+
+        }
+
+
+
+
+
+        table th, table td {
+
+            padding: 15px;
+
+            padding-top: 10px;
+
+            padding-bottom: 10px;
+
+        }
+
+
+
+        table td {
+
+            text-align: left;
+
+            font-size: 14px;
+
+            border: 1px solid #555;
+
+            padding-left: 20px;
+
+        }
+
+
+
+    .header1 {
+
+        font-size: 24px;
+
+        margin: 3px 3px;
+
+        text-align: center;
+
+    }
+
+
+
+    th {
+
+        /*color: #fff;*/
+
+        font-weight: bold !important;
+
+    }
+
+
+
+
+
+
+
+
+
+    .row.pt-5.pb-3 {
+
+        display: block;
+
+        justify-content: center;
+
+        padding: 8px 10px 9px;
+
+        align-items: center;
+
+        flex-direction: row-reverse;
+
+    }
+
+
+
+    .col-md-10.col {
+
+        width: 80%;
+
+        display: inline-block;
+
+        text-align: center;
+
+    }
+
+
+
+    .col-md-2.w3-input-group {
+
+        width: 15%;
+
+        text-align: left;
+
+        display: inline-block;
+
+        float: left;
+
+    }
+
+
+
+    h3.headingsm.bxs {
+
+        margin: 0;
+
+    }
+
+
+
+    input#btnSubmit {
+
+        background-color: #5cb85c;
+
+        border: none;
+
+        padding: 5px 12px;
+
+        color: #fff;
+
+        border-radius: 4px;
+
+        margin: 0 7px;
+
+    }
+
+
+
+    input#btnBack {
+
+        background-color: #373837;
+
+        border: none;
+
+        padding: 5px 12px;
+
+        color: #fff;
+
+        border-radius: 4px;
+
+        margin: 0 7px;
+
+    }
+
+
+
+    table th {
+
+        padding: 3px !important;
+
+        padding-top: 10px;
+
+        padding-bottom: 10px;
+
+        font-weight: normal;
+
+        /* padding: 2px 0px !important; */
+
+        font-size: 14px;
+
+        /* text-align: center; */
+
+    }
+
+
+
+    @media(max-width:767px) {
+
+        .table-wrapper {
+
+            overflow-y: scroll;
+
+            overflow-x: scroll;
+
+            height: fit-content;
+
+            max-height: 66.4vh;
+
+            margin-top: 22px;
+
+            margin: 15px;
+
+            padding-bottom: 20px;
+
+        }
+
+
+
+        table th, table td, table td td {
+
+            padding: 4px 4px !important;
+
+            font-family: arial;
+
+            line-height: 1.4;
+
+            font-size: 10px;
+
+        }
+
+
+
+        .header1 {
+
+            font-size: 16px;
+
+            margin: 8px 3px 0px;
+
+            text-align: center;
+
+            line-height: 1;
+
+        }
+
+    }
+
+
+
+
+
+    @media(min-width: 768px) {
+
+        .fixleft1, .fixleft21, .fixleft2, .fixleft22, .fixleft3, .fixleft23 {
+
+            position: sticky;
+
+            top: 0px;
+
+            background-color: #ddb082;
+
+            color: rgb(241, 245, 179);
+
+            text-align: center;
+
+            font-weight: 600;
+
+            font-size: 12px;
+
+            outline: 0.7px solid #555;
+
+            border: 1.5px solid #555;
+
+            z-index: 1 !important;
+
+            letter-spacing: .5px;
+
+            color: #000;
+
+        }
+
+
+
+
+
+        .fixleft1, .fixleft21 {
+
+            position: sticky;
+
+            width: 34px;
+
+            left: 0;
+
+        }
+
+
+
+        .fixleft2, .fixleft22 {
+
+            position: sticky;
+
+            width: 34px;
+
+            left: 43px;
+
+        }
+
+
+
+        .fixleft3, .fixleft23 {
+
+            position: sticky;
+
+            width: 34px;
+
+            left: 141px;
+
+        }
+
+
+
+        td.fixleft4 {
+
+            position: sticky;
+
+            width: 208px;
+
+            left: 0;
+
+        }
+
+
+
+        td.fixleft0_1 {
+
+            position: sticky;
+
+            width: 34px;
+
+            left: 0;
+
+        }
+
+
+
+        td.fixleft0_2 {
+
+            position: sticky;
+
+            width: 34px;
+
+            left: 44px;
+
+        }
+
+
+
+        td.fixleft0_3 {
+
+            position: sticky;
+
+            width: 34px;
+
+            left: 150px;
+
+        }
+
+    }
+
+
+
+
+
+    td.fixleft0_3, td.fixleft0_1, td.fixleft0_2 {
+
+        background: #ddb082 !important;
+
+    }
+
+
+
+    h3.headingsm.bxs {
+
+        margin: 0;
+
+        font-family: arial;
+
+        font-size: 20px;
+
+        line-height: 20px;
+
+        letter-spacing: .5px;
+
+        text-transform: capitalize;
+
+        color: #222;
+
+    }
+
+
+
+    @media(max-width: 768px) {
+
+        #tableReportTable tr td {
+
+            position: relative !important;
+
+        }
+
+    }
+
+
+
+
+
+
+
+    tbody .up {
+
+        color: #3f00ff;
+
+        font-size: 18px;
+
+    }
+
+
+
+    tbody .down {
+
+        color: #006800;
+
+        font-size: 16px;
+
+    }
+
+
+
+    tbody .down1 {
+
+        color: #ef4f4f;
+
+        font-size: 16px;
+
+    }
+
+
+
+    tbody .slace {
+
+        color: red;
+
+        font-size: 22px;
+
+    }
+
+
+
+    thead .up {
+
+        color: #3f00ff;
+
+    }
+
+
+
+    thead .down {
+
+        color: #006800;
+
+    }
+
+
+
+    thead .down1 {
+
+        color: #ef4f4f;
+
+    }
+
+
+
+    thead .slace {
+
+        color: red;
+
+    }
+
+
+
+    .red {
+
+        color: #cf0101;
+
+        font-size: 17px;
+
+    }
+
+
+
+    .yellow {
+
+        color: #818122;
+
+        font-size: 17px;
+
+    }
+
+
+
+    .green {
+
+        color: #025e02;
+
+        font-size: 17px;
+
+    }
+
+
+
+    td.Vfixleft0_4 {
+
+        background: #ddb082 !important;
+
+        position: sticky;
+
+        width: 34px;
+
+        left: 249px;
+
+    }
+
+
+
+    td.Vfixleft4 {
+
+        background: #ddb082 !important;
+
+        position: sticky;
+
+        width: 34px;
+
+        left: 250px;
+
+    }
+
+
+
+    td.Vfixleft5 {
+
+        background: rgb(247, 100, 100);
+
+        position: sticky;
+
+        width: 208px;
+
+        left: 249px;
+
+        z-index: 9;
+
+    }
+
+
+
+    thead {
+
+        background-color: rgb(241, 245, 179) !important;
+
+    }
+
+
+
+    .btnReport {
+
+        color: #ed8607;
+
+        text-transform: uppercase;
+
+        font-weight: 550;
+
+        background: white;
+
+        border-radius: 6px !important;
+
+        margin-right: 10px;
+
+        border: 2.5px solid #24292f !important;
+
+        padding: 4px 15px;
+
+    }
+
+
+
+    .btnReportactive {
+
+        background: #32c5ff !important;
+
+        color: #fff !important;
+
+    }
+
+</style>
+
+</head>
+
+<body>
+<div>
+        <h1 style="text-align: center; ">Weekly Progress Of Namami Gange Under Tendering Projects</h1>
+        <div
+    id="lastUpdate"
+    style="
+        text-align:center;
+        font-weight:bold;
+        color:green;
+        margin-bottom:10px;
+    "
+>
+    Last Update Date :
+</div>
+            <div class="col-md-2 w3-input-group">
+
+                <button id="btnRefresh"
+                        class="btn btn-success"
+                        style="background:#0d6efd;
+            color:white;
+            border:none;
+            margin: 10px;
+            padding:10px 20px;
+            border-radius:5px;
+            cursor:pointer;">
+                    Refresh
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="bg-white">
+
+<div class="container-fluid">
+
+<div class="table-responsive">
+
+<table id="tableReportTable"
+       border="1"
+       class="table table-bordered"
+       style="width:100%;">
+
+<thead>
+
+<tr>
+
+<th rowspan="2">Sr.No</th>
+<th rowspan="2">District</th>
+<th rowspan="2">Town</th>
+
+<th rowspan="2">
+Name of Sewerage Project
+</th>
+
+<th rowspan="2">
+Scheme Type
+</th>
+
+<th rowspan="2">
+Mode
+</th>
+
+<th colspan="5">
+AA&ES and Date
+</th>
+
+<th rowspan="2">
+No. STP
+</th>
+
+<th rowspan="2">
+STP Capacity
+</th>
+
+<th rowspan="2">
+No. Drains
+</th>
+
+<th rowspan="2">
+Update Date
+</th>
+
+<th rowspan="2">
+Remarks
+</th>
+
+</tr>
+
+<tr>
+
+<th>Date</th>
+<th>Sanction</th>
+<th>Work</th>
+<th>Centage</th>
+<th>O&M</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function formatDate(dateStr){
+
+    if(!dateStr) return "";
+
+    return new Date(dateStr)
+        .toLocaleDateString("en-GB");
+}
+
+function formatDateTime(dateStr){
+
+    if(!dateStr) return "";
+
+    return new Date(dateStr)
+        .toLocaleString("en-GB");
+}
+
+function loadData(){
+
+    fetch("/api/current")
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        let rows = "";
+
+        data.forEach(row => {
+
+            rows += `
+            <tr>
+
+                <td>${row.sr_no || ""}</td>
+
+                <td>${row.district_name || ""}</td>
+
+                <td>${row.city_name || ""}</td>
+
+                <td>${row.project_name || ""}</td>
+
+                <td>${row.scheme_type || ""}</td>
+
+                <td>${row.project_mode || ""}</td>
+
+                <td>${formatDate(row.sanction_date)}</td>
+
+                <td>${row.sanction_cost || ""}</td>
+
+                <td>${row.work_cost || ""}</td>
+
+                <td>${row.centage || ""}</td>
+
+                <td>${row.om_cost || ""}</td>
+
+                <td>${row.stp_count || ""}</td>
+
+                <td>${row.stp_capacity || ""}</td>
+
+                <td>${row.drain_count || ""}</td>
+
+                <td>${formatDate(row.update_date)}</td>
+
+                <td>${row.remarks || ""}</td>
+
+            </tr>`;
+        });
+
+        document.getElementById("tableBody").innerHTML = rows;
+
+        if(data.length){
+
+            document.getElementById("lastUpdate")
+                .innerHTML =
+                "Last Update Date : " +
+                formatDateTime(data[0].scrape_time);
+        }
+
+    })
+    .catch(console.error);
+}
+
+document
+.getElementById("btnRefresh")
+.addEventListener(
+    "click",
+    async function(){
+
+        const btn = this;
+
+        btn.disabled = true;
+
+        btn.innerText =
+        "Refreshing...";
+
+        try{
+
+            const response =
+            await fetch(
+                "/api/fetch-now",
+                {
+                    method:"POST"
+                }
+            );
+
+            const result =
+            await response.json();
+
+            alert(
+                result.message
+            );
+
+            setTimeout(
+                loadData,
+                3000
+            );
+        }
+        catch(err){
+
+            console.error(err);
+
+            alert(
+                "Refresh Failed"
+            );
+        }
+        finally{
+
+            btn.disabled = false;
+
+            btn.innerText =
+            "Fetch Updated Data";
+        }
+    }
+);
+
+loadData();
+
+setInterval(loadData, 10000);
+
+</script>
+
+</body>
+</html>
