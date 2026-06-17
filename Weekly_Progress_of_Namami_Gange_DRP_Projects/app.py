@@ -1,8 +1,14 @@
-from flask import Flask, jsonify, render_template
 import mysql.connector
+from manual_refresh import manual_refresh
+import os
 import threading
 import time
-from manual_refresh import manual_refresh
+from flask import Flask, jsonify, render_template
+import mysql.connector
+from dotenv import load_dotenv
+
+# Load variables from .env file
+load_dotenv()
 from scrap import (
     create_csv,
     backup_current_to_audit,
@@ -13,12 +19,12 @@ from scrap import (
 app = Flask(__name__)
 
 refresh_running = False
-
+# Retrieve values using os.getenv()
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "Utkarshahu@18",
-    "database": "weekly_progress_of_namami_gange_drp_projects"
+    "host": os.getenv("DB_HOST", "localhost"),
+    "user": os.getenv("DB_USER", "root"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("MAIN_DB_NAME")
 }
 
 
