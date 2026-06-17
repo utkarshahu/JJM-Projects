@@ -10,6 +10,12 @@ __pycache__/
 
 # Environment Variables
 .env
+**/.env
+
+
+# Keep examples
+!.env.example
+!**/.env.example
 
 # IDE
 .vscode/
