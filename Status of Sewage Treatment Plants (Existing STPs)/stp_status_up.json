@@ -1,0 +1,99 @@
+{
+    "report_date": "09-Jun-2026",
+    "scrape_time": "2026-06-10T11:06:52.888101",
+    "status_summary": [
+        {
+            "maintainer": "UPJN(U)",
+            "total": 53,
+            "compliant": 48,
+            "non_compliant": 1,
+            "non_operational": 4
+        },
+        {
+            "maintainer": "UPJN(R)",
+            "total": 48,
+            "compliant": 46,
+            "non_compliant": 2,
+            "non_operational": 0
+        },
+        {
+            "maintainer": "Development Authority",
+            "total": 21,
+            "compliant": 18,
+            "non_compliant": 0,
+            "non_operational": 3
+        },
+        {
+            "maintainer": "NOIDA/ G.NOIDA",
+            "total": 12,
+            "compliant": 12,
+            "non_compliant": 0,
+            "non_operational": 0
+        },
+        {
+            "maintainer": "Urban Development Department",
+            "total": 8,
+            "compliant": 4,
+            "non_compliant": 2,
+            "non_operational": 2
+        },
+        {
+            "maintainer": "Awas Vikas",
+            "total": 2,
+            "compliant": 2,
+            "non_compliant": 0,
+            "non_operational": 0
+        },
+        {
+            "maintainer": "Banaras Locomotive Works",
+            "total": 1,
+            "compliant": 1,
+            "non_compliant": 0,
+            "non_operational": 0
+        },
+        {
+            "maintainer": "NAPS",
+            "total": 1,
+            "compliant": 1,
+            "non_compliant": 0,
+            "non_operational": 0
+        },
+        {
+            "maintainer": "UPSIDC",
+            "total": 1,
+            "compliant": 1,
+            "non_compliant": 0,
+            "non_operational": 0
+        },
+        {
+            "maintainer": "YEIDA",
+            "total": 1,
+            "compliant": 0,
+            "non_compliant": 0,
+            "non_operational": 1
+        }
+    ],
+    "capacity_summary": [
+        {
+            "category": "Compliant",
+            "total": 133,
+            "capacity_mld": 4121.48,
+            "utilization_capacity_mld": 3318.02,
+            "utilization_percent": 80.51
+        },
+        {
+            "category": "Non-Compliant",
+            "total": 5,
+            "capacity_mld": 125.5,
+            "utilization_capacity_mld": 74.0,
+            "utilization_percent": 58.96
+        },
+        {
+            "category": "Non-Operational",
+            "total": 10,
+            "capacity_mld": 346.26,
+            "utilization_capacity_mld": 169.76,
+            "utilization_percent": 49.03
+        }
+    ]
+}
