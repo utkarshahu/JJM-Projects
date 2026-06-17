@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 URL = (
     "https://jjm.up.gov.in/NamamiGange/"
-    "Weekly_Progress_of_Namami_Gange_Projects?mode=U"
+    "Weekly_Progress_of_Namami_Gange_Projects?mode=D"
 )
 
 HTML_FILE = (
@@ -917,26 +917,46 @@ def scheduler():
 
         try:
 
+            print("\n" + "=" * 60)
+            print("NEW CYCLE STARTED")
+            print("=" * 60)
+
+            print(
+                "\nSTEP 1 : Create CSV From HTML"
+            )
+
             create_csv()
+
+            print(
+                "\nSTEP 2 : Backup Current -> Audit"
+            )
 
             backup_current_to_audit()
 
+            print(
+                "\nSTEP 3 : Clear Current DB"
+            )
+
             clear_current()
+
+            print(
+                "\nSTEP 4 : Load CSV -> Current DB"
+            )
 
             load_csv_to_current()
 
             print(
-                "Cycle Completed"
+                "\nCycle Completed Successfully"
             )
 
         except Exception as e:
 
             print(
-                "ERROR:",
-                e
+                "\nSCHEDULER ERROR:",
+                str(e)
             )
 
-        time.sleep(20)
+        time.sleep(10)
 
 def manual_refresh():
 
@@ -972,28 +992,23 @@ def manual_refresh():
 def first_run():
 
     print(
-        "Initial Data Load"
+        "\nINITIAL LOAD"
     )
-
 
     create_csv()
 
     clear_current()
 
     load_csv_to_current()
+
+    print(
+        "\nINITIAL LOAD COMPLETED"
+    )
 if __name__ == "__main__":
 
-    print(
-        "=" * 60
-    )
-
-    print(
-        "UNDER TENDERING PROJECT SCRAPER"
-    )
-
-    print(
-        "=" * 60
-    )
+    print("=" * 60)
+    print("DRP PROJECT SCRAPER")
+    print("=" * 60)
 
     first_run()
 
