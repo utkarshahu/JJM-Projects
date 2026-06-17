@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+Weekly Progress Of Namami Gange - DPR Projects
+</title>
+
+<style>
+body{
+
+    margin:10px;
+
+    font-family:Arial;
+
+    font-size:13px;
+
+    background:#ffffff;
+}
+
+h1{
+
+    text-align:center;
+
+    font-size:24px;
+
+    margin-bottom:10px;
+}
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow:visible;
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    table-layout:auto;
+}
+
+table th,
+table td{
+
+    border:1px solid #555;
+
+    padding:4px 6px;
+
+    font-size:12px;
+
+    vertical-align:top;
+}
+
+table th{
+
+    background:#f1f5b3;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+    font-size:12px;
+}
+
+#lastUpdate{
+
+    text-align:center;
+
+    color:green;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+    font-size:14px;
+}
+
+#btnRefresh{
+
+    background:#0d6efd;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 16px;
+
+    border-radius:4px;
+
+    cursor:pointer;
+
+    margin-bottom:10px;
+
+    font-size:13px;
+}
+
+#btnRefresh:hover{
+
+    opacity:0.9;
+}
+
+td:nth-child(1){
+
+    width:60px;
+
+    text-align:center;
+}
+
+td:nth-child(2){
+    text-align: center;
+    width:120px;
+}
+
+td:nth-child(3){
+    text-align: center;
+    width:120px;
+}
+td:nth-child(4){
+    text-align: center;
+}
+
+td:nth-child(5),
+td:nth-child(6),
+td:nth-child(7){
+
+    text-align:center;
+
+    width:80px;
+}
+
+td:nth-child(8){
+
+    width:100px;
+
+    text-align:center;
+}
+
+td:nth-child(9){
+    text-align: center;
+    min-width:300px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1
+style="
+text-align:center;
+"
+>
+Weekly Progress Of Namami Gange DPR Projects
+</h1>
+
+<div id="lastUpdate">
+
+Last Update Date :
+
+</div>
+
+<button id="btnRefresh">
+
+Fetch Updated Data
+
+</button>
+<div class="table-wrapper">
+
+<table id="tableReportTable">
+
+<thead>
+
+<tr>
+
+<th>Sr.No</th>
+
+<th>District</th>
+
+<th>Town</th>
+
+<th>Name of Sewerage Project</th>
+
+<th>No. STP</th>
+
+<th>STP Capacity</th>
+
+<th>No. Drains</th>
+
+<th>Update Date</th>
+
+<th>Remarks</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody">
+
+</tbody>
+
+</table>
+
+
+
+</div>
+<script>
+
+function formatDate(dateStr){
+
+    if(!dateStr)
+        return "";
+
+    return new Date(
+        dateStr
+    ).toLocaleDateString(
+        "en-GB"
+    );
+}
+
+function formatDateTime(dateStr){
+
+    if(!dateStr)
+        return "";
+
+    return new Date(
+        dateStr
+    ).toLocaleString(
+        "en-GB"
+    );
+}
+
+function loadData(){
+
+    fetch(
+        "/api/current"
+    )
+
+    .then(
+        res => res.json()
+    )
+
+    .then(data => {
+
+        let rows = "";
+
+        data.forEach(row => {
+
+            rows += `
+
+            <tr>
+
+                <td>${row.sr_no || ""}</td>
+
+                <td>${row.district_name || ""}</td>
+
+                <td>${row.city_name || ""}</td>
+
+                <td>${row.project_name || ""}</td>
+
+                <td>${row.stp_count || ""}</td>
+
+                <td>${row.stp_capacity || ""}</td>
+
+                <td>${row.drain_count || ""}</td>
+
+                <td>${formatDate(row.update_date)}</td>
+
+                <td>${row.remarks || ""}</td>
+
+            </tr>
+
+            `;
+        });
+
+        document
+        .getElementById(
+            "tableBody"
+        )
+        .innerHTML = rows;
+
+        if(data.length){
+
+            document
+            .getElementById(
+                "lastUpdate"
+            )
+            .innerHTML =
+
+            "Last Update Date : "
+
+            +
+
+            formatDateTime(
+                data[0].scrape_time
+            );
+        }
+
+    })
+
+    .catch(
+        console.error
+    );
+}
+function loadStats(){
+
+    fetch(
+        "/api/stats"
+    )
+
+    .then(
+        res => res.json()
+    )
+
+    .then(data => {
+
+        document
+        .getElementById(
+            "totalProjects"
+        )
+        .innerText =
+        data.total_projects;
+
+        document
+        .getElementById(
+            "totalDistricts"
+        )
+        .innerText =
+        data.total_districts;
+
+        document
+        .getElementById(
+            "totalCities"
+        )
+        .innerText =
+        data.total_cities;
+
+    });
+}
+
+document
+.getElementById("btnRefresh")
+.addEventListener(
+    "click",
+    async function(){
+
+        const btn = this;
+
+        btn.disabled = true;
+
+        btn.innerText =
+        "Refreshing...";
+
+        try{
+
+            const response =
+            await fetch(
+                "/api/fetch-now",
+                {
+                    method:"POST"
+                }
+            );
+
+            const result =
+            await response.json();
+
+            alert(
+                result.message
+            );
+
+            setTimeout(
+                function(){
+
+                    loadData();
+                    loadStats();
+
+                },
+                3000
+            );
+        }
+
+        catch(err){
+
+            alert(
+                "Refresh Failed"
+            );
+        }
+
+        finally{
+
+            btn.disabled = false;
+
+            btn.innerText =
+            "Fetch Updated Data";
+        }
+    }
+);
+
+
+loadData();
+
+loadStats();
+
+</script>
+
+</body>
+
+</html>
